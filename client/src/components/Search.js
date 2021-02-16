@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
 import CountryListItem from './CountryListItem.js'
 import getCountryData from '../lib/getCountryData.js'
@@ -7,17 +8,23 @@ import useDebounceCallback from '../lib/useDebounceCallback.js'
 /*
 The search bar and search results.
 */
-const Search = () => {
+const Search = ({
+  pinned,
+  togglePinned
+}) => {
 
   // STATE
 
-  const [query, setQuery] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
   const [countryData, setCountryData] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [query, setQuery] = useState('')
 
   // EVENTS HANDLERS
 
-  // get country data from API and set it in state. if `query` is empty,
+  // update `query` state on changes to input element
+  const handleChange = ({ target: { value } }) => setQuery(value)
+
+  // get country data from API and set it in state. if `subString` is empty,
   // do not make API call and empty country data in state
   const handleGetCountries = async () => {
     if (query === '') { return setCountryData([]) }
@@ -25,9 +32,6 @@ const Search = () => {
     const nextCountryData = await getCountryData(query)
     setCountryData(nextCountryData)
   }
-
-  // update `query` state on changes to input element
-  const handleChange = ({ target: { value } }) => setQuery(value)
 
   // EFFECTS HOOKS
 
@@ -44,22 +48,30 @@ const Search = () => {
 
   // LOGIC
 
+  // filter out pinned country data and show top 5 results
+  const pinnedCountries = pinned.map(({ name }) => name)
+  const unpinnedData = countryData
+    .filter(({ name }) => !pinnedCountries.includes(name))
+    .splice(0, 5)
+
   // generate list of countries. if results are loading, show loading message
   const CountryList = isLoading === true
     ? <div>Loading Results...</div>
 
       // if there are 0 countries found, show not found message
-      : countryData.length === 0
+      : unpinnedData.length === 0
         ? <div>No countries found</div>
 
         // otherwise, show list of `CountryListItem` components
-        : countryData.map(({ flag, name }, index) => (
-          <CountryListItem
-            flag={ flag }
-            key={ index }
-            name={ name }
-          />
-        ))
+        : unpinnedData
+          .map((data, index) => (
+            <CountryListItem
+              data={ data }
+              isPinned={ false }
+              key={ index }
+              togglePinned={ togglePinned }
+            />
+          ))
 
   // search results will show only if `query` is not empty
   const SearchResults = query !== '' && (
@@ -89,6 +101,12 @@ const Search = () => {
 
     </div>
   )
+}
+
+Search.propTypes = {
+  handleGetCountries: PropTypes.func,
+  pinned: PropTypes.arrayOf(PropTypes.string),
+  togglePinned: PropTypes.func
 }
 
 export default Search

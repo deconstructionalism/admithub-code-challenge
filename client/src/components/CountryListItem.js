@@ -6,37 +6,53 @@ Takes an image URL and a country name, and renders a
 list item that can be pinned to or removed from the
 "Selected Countries" list.
 */
-const CountryListItem = ({ flag, name }) => {
+const CountryListItem = ({
+  data,
+  isPinned,
+  togglePinned
+}) => {
+
+  // DESTRUCTURE VALUES
+
+  const { flag, name } = data
+
+  // EVENT HANDLERS
+
+  const handleClick = () => togglePinned(data)
+
+  // LOGIC
+
+  const imgAlt = `flag of ${name}`
+  const imgStyle = { width: '3rem' }
+  const buttonIcon = isPinned ? '\u2715' : '\uFF0B';
+  const buttonClass = `btn ${isPinned ? 'btn-danger' : 'btn-success'}`
+
   return (
     <li className="d-flex flex-row align-items-center list-group-item">
 
       <img
-        alt={ `flag of ${name}` }
+        alt={ imgAlt }
         src={ flag }
-        style={ { width: '3rem' } }
+        style={ imgStyle }
       />
 
       <span class="mr-auto ml-4">{ name }</span>
 
       <button
-        class="btn"
+        class={ buttonClass }
+        onClick={ handleClick }
       >
-        &#10133;
+        { buttonIcon }
       </button>
 
     </li>
   )
 }
 
-// temporary; for testing layout only
-CountryListItem.defaultProps = {
-  flag: 'https://restcountries.eu/data/mex.svg',
-  name: 'Mexico'
-}
-
 CountryListItem.propTypes = {
-  flag: PropTypes.string,
-  name: PropTypes.string
+  data: PropTypes.object,
+  isPinned: PropTypes.bool,
+  togglePinned: PropTypes.func
 }
 
 export default CountryListItem

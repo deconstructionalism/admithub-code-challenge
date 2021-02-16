@@ -1,22 +1,23 @@
+import { connect } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
+import { getCountries } from '../redux/actions/countryActions.js'
 import CountryListItem from './CountryListItem.js'
-import getCountryData from '../lib/getCountryData.js'
-import useDebounceCallback from '../lib/useDebounceCallback.js'
 
 /*
 The search bar and search results.
 */
 const Search = ({
+  countries,
+  getCountries,
+  isLoading,
   pinned,
   togglePinned
 }) => {
 
   // STATE
 
-  const [countryData, setCountryData] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
   const [query, setQuery] = useState('')
 
   // EVENTS HANDLERS
@@ -24,54 +25,39 @@ const Search = ({
   // update `query` state on changes to input element
   const handleChange = ({ target: { value } }) => setQuery(value)
 
-  // get country data from API and set it in state. if `subString` is empty,
-  // do not make API call and empty country data in state
-  const handleGetCountries = async () => {
-    if (query === '') { return setCountryData([]) }
-
-    const nextCountryData = await getCountryData(query)
-    setCountryData(nextCountryData)
-  }
-
   // EFFECTS HOOKS
 
-  // debounce changes to `query` that then trigger API requests for countries
-  // data based on `query` value
-  useDebounceCallback(query, handleGetCountries, 400)
-
-  // when `query` changes, set `isLoading` state to `true` unless `query` is
-  // empty, in which case set `isLoading` to `false`
-  useEffect(() => setIsLoading(query !== ''), [query])
-
-  // when new country data has been retreived, set `isLoading` state to `false`
-  useEffect(() => setIsLoading(false), [countryData])
+  // get country data from API as long as `query` is not empty
+  useEffect(() => query !== '' && getCountries(query), [query])
 
   // LOGIC
 
   // filter out pinned country data and show top 5 results
   const pinnedCountries = pinned.map(({ name }) => name)
-  const unpinnedData = countryData
+  const unpinnedData = countries
     .filter(({ name }) => !pinnedCountries.includes(name))
     .splice(0, 5)
 
-  // generate list of countries. if results are loading, show loading message
-  const CountryList = isLoading === true
-    ? <div>Loading Results...</div>
+  // generate list of countries
+  const CountryList = (() => {
+
+    // if results are loading, show loading message
+    if (isLoading === true) { return <div>Loading Results...</div> }
 
       // if there are 0 countries found, show not found message
-      : unpinnedData.length === 0
-        ? <div>No countries found</div>
+    if (unpinnedData.length === 0) { return <div>No countries found</div> }
 
-        // otherwise, show list of `CountryListItem` components
-        : unpinnedData
-          .map((data, index) => (
-            <CountryListItem
-              data={ data }
-              isPinned={ false }
-              key={ index }
-              togglePinned={ togglePinned }
-            />
-          ))
+    // otherwise, show list of `CountryListItem` components
+    return unpinnedData
+      .map((data, index) => (
+        <CountryListItem
+          data={ data }
+          isPinned={ false }
+          key={ index }
+          togglePinned={ togglePinned }
+        />
+      ))
+  })()
 
   // search results will show only if `query` is not empty
   const SearchResults = query !== '' && (
@@ -103,10 +89,26 @@ const Search = ({
   )
 }
 
+// PROP TYPES
+
 Search.propTypes = {
-  handleGetCountries: PropTypes.func,
-  pinned: PropTypes.arrayOf(PropTypes.string),
+  countries: PropTypes.arrayOf(PropTypes.object),
+  getCountries: PropTypes.func,
+  isLoading: PropTypes.bool,
+  pinned: PropTypes.arrayOf(PropTypes.object),
   togglePinned: PropTypes.func
 }
 
-export default Search
+// REDUX CONNECT CONFIG
+
+const mapStateToProps = ({ country, pinned }) => ({
+  countries: country.countries,
+  isLoading: country.isLoading,
+  pinned: pinned.countries
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getCountries: (subString) => dispatch(getCountries(subString))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)

@@ -87,7 +87,7 @@ const Search = ({
   )
 
   return (
-    <div className="flex-grow-1 m-1">
+    <div>
 
       <input
         className="w-100"

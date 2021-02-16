@@ -15,6 +15,8 @@ const SelectedCountries = ({
 
   // LOGIC
 
+  if (pinned.length === 0) { return null }
+
   // generate list of pinned countries
   const CountryList = pinned
     .map((data, index) => (
@@ -26,12 +28,17 @@ const SelectedCountries = ({
       />
     ))
 
+  const containerStyle = { paddingTop: '1.875rem' }
+
   return (
-    <div className="flex-grow-1">
-      <h4> Selected Countries (part 3): </h4>
+    <div style={ containerStyle }>
+
+      <h4 className="mt-2">Selected Countries</h4>
+
       <ul className="list-group pr-2">
         { CountryList }
       </ul>
+
     </div>
   )
 }

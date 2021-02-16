@@ -30,17 +30,25 @@ const App = () => {
   }
 
   return (
-    <div className="row w-100 d-flex pt-2">
+    <div className="row p-4">
 
-      <Search
-        pinned={ pinned }
-        togglePinned={ togglePinned }
-      />
+      <div className="col">
 
-      <SelectedCountries
-        pinned={ pinned }
-        togglePinned={ togglePinned }
-      />
+        <Search
+          pinned={ pinned }
+          togglePinned={ togglePinned }
+        />
+
+      </div>
+
+      <div className="col">
+
+        <SelectedCountries
+          pinned={ pinned }
+          togglePinned={ togglePinned }
+        />
+
+      </div>
 
     </div>
   )

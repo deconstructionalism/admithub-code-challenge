@@ -51,10 +51,11 @@ const mergeCountries = (sourceArray, targetArray) => {
 
       // find matching index for source country (if it exists) in target
       const matchIndex = acc
-        .findIndex(({ alpha3Code }) => alpha3Code === country.alpha3Code )
+        .findIndex(({ alpha3Code }) => alpha3Code === country.alpha3Code)
 
 
       return matchIndex > -1
+
         // if there is a matching country in the target, replace it without
         // mutating the original target array
         ? [
@@ -62,6 +63,7 @@ const mergeCountries = (sourceArray, targetArray) => {
           country,
           ...acc.slice(matchIndex + 1)
         ]
+
         // otherwise return the accumulator
         : acc
     }, targetArray)
@@ -82,7 +84,7 @@ const getCountries = async (subString) => {
     .filter(({ name }) => {
       return name.toLowerCase().includes(subString.toLowerCase())
     })
-    .map(({ id, ...rest }) => rest)
+    .map(({ id: _, ...rest }) => rest)
 
 
   // get country data from REST Countries API

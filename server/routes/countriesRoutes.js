@@ -12,7 +12,7 @@ router.get('/countries/:subString', (req, res, next) => {
   const { subString } = req.params
 
   getCountries(subString)
-    .then((countries) => res.json({ countries }))
+    .then((countries) => res.json(countries))
     .catch(next)
 })
 

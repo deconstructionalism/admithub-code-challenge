@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 
 import countryReducer from './countryReducer.js'
-import pinnedReducer from './pinnedReducer.js'
+import pinnedCountryReducer from './pinnedCountryReducer.js'
 
 const rootReducer = combineReducers({
   country: countryReducer,
-  pinned: pinnedReducer
+  pinnedCountry: pinnedCountryReducer
 })
 
 export default rootReducer

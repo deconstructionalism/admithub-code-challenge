@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
+import { getPinnedCountries } from './redux/actions/pinnedCountryActions.js'
 import Search from './components/Search.js'
 import SelectedCountries from './components/SelectedCountries.js'
 
@@ -7,46 +10,27 @@ import SelectedCountries from './components/SelectedCountries.js'
 The entire app that gets rendered in the "root"
 element of the page
 */
-const App = () => {
+const App = ({ getPinnedCountries }) => {
 
-  // STATE
+  // EFFECTS HOOKS
 
-  const [pinned, setPinned] = useState([])
-
-  // EVENT HANDLERS
-
-  // add or remove country data from `pinned` state
-  const togglePinned = (data) => {
-
-    // determine if country in `data` is pinned
-    const isPinned = pinned.find(({ name }) => name === data.name)
-
-    // remove country if in `pinned`, otherwise add it
-    const nextPinned = isPinned
-      ? pinned.filter(({ name }) => name !== data.name)
-      : [...pinned, data]
-
-    setPinned(nextPinned)
-  }
+  // get pinned countries from server when app first loads
+  useEffect(() => {
+    getPinnedCountries()
+  }, [])
 
   return (
     <div className="row p-4">
 
       <div className="col">
 
-        <Search
-          pinned={ pinned }
-          togglePinned={ togglePinned }
-        />
+        <Search />
 
       </div>
 
       <div className="col">
 
-        <SelectedCountries
-          pinned={ pinned }
-          togglePinned={ togglePinned }
-        />
+        <SelectedCountries />
 
       </div>
 
@@ -54,4 +38,16 @@ const App = () => {
   )
 }
 
-export default App
+// PROP TYPES
+
+App.propTypes = {
+  getPinnedCountries: PropTypes.func
+}
+
+// REDUX CONNECT CONFIG
+
+const mapDispatchToProps = (dispatch) => ({
+  getPinnedCountries: () => dispatch(getPinnedCountries())
+})
+
+export default connect(null, mapDispatchToProps)(App)

@@ -1,6 +1,8 @@
+import { connect } from 'react-redux'
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { removePinnedCountry } from '../redux/actions/pinnedCountryActions.js'
 import CountryListItem from './CountryListItem.js'
 
 /*
@@ -9,16 +11,17 @@ the singular <CountryListItem /> below with the list of
 all selected countries.
 */
 const SelectedCountries = ({
-  pinned,
+  pinnedCountries,
   togglePinned
 }) => {
 
   // LOGIC
 
-  if (pinned.length === 0) { return null }
+  // do not render anything if no countries are pinned
+  if (pinnedCountries.length === 0) { return null }
 
   // generate list of pinned countries
-  const CountryList = pinned
+  const CountryList = pinnedCountries
     .map((data, index) => (
       <CountryListItem
         data={ data }
@@ -43,10 +46,21 @@ const SelectedCountries = ({
   )
 }
 
+// PROP TYPES
+
 SelectedCountries.propTypes = {
-  countryData: PropTypes.arrayOf(PropTypes.object),
-  pinned: PropTypes.arrayOf(PropTypes.string),
+  pinnedCountries: PropTypes.arrayOf(PropTypes.string),
   togglePinned: PropTypes.func
 }
 
-export default SelectedCountries
+// REDUX CONNECT CONFIG
+
+const mapStateToProps = ({ pinnedCountry }) => ({
+  pinnedCountries: pinnedCountry.countries,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  togglePinned: ({ alpha3Code }) => dispatch(removePinnedCountry(alpha3Code))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectedCountries)

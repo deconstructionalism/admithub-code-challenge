@@ -5,12 +5,14 @@ import PropTypes from 'prop-types'
 import { getPinnedCountries } from './redux/actions/pinnedCountryActions.js'
 import Search from './components/Search.js'
 import SelectedCountries from './components/SelectedCountries.js'
+import ServerOfflineNotification from
+  './components/ServerOfflineNotification.js'
 
 /*
 The entire app that gets rendered in the "root"
 element of the page
 */
-const App = ({ getPinnedCountries }) => {
+const App = ({ hasFailedToLoad, getPinnedCountries }) => {
 
   // EFFECTS HOOKS
 
@@ -20,17 +22,23 @@ const App = ({ getPinnedCountries }) => {
   }, [])
 
   return (
-    <div className="row p-4">
+    <div>
 
-      <div className="col">
+      { hasFailedToLoad && <ServerOfflineNotification /> }
 
-        <Search />
+      <div className="row p-4">
 
-      </div>
+        <div className="col">
 
-      <div className="col">
+          <Search />
 
-        <SelectedCountries />
+        </div>
+
+        <div className="col">
+
+          <SelectedCountries />
+
+        </div>
 
       </div>
 
@@ -41,13 +49,18 @@ const App = ({ getPinnedCountries }) => {
 // PROP TYPES
 
 App.propTypes = {
+  hasFailedToLoad: PropTypes.bool,
   getPinnedCountries: PropTypes.func
 }
 
 // REDUX CONNECT CONFIG
 
+const mapStateToProps = ({ pinnedCountry }) => ({
+  hasFailedToLoad: pinnedCountry.hasFailedToLoad
+})
+
 const mapDispatchToProps = (dispatch) => ({
   getPinnedCountries: () => dispatch(getPinnedCountries())
 })
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

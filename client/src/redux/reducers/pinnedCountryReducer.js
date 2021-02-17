@@ -12,6 +12,7 @@ import {
 
 const initialState = {
   countries: [],
+  hasFailedToLoad: false,
   isLoading: false
 }
 
@@ -39,6 +40,7 @@ const pinnedCountryReducer = (state = initialState, action) => {
       return {
         ...state,
         countries: [],
+        hasFailedToLoad: true,
         isLoading: false
       }
     }

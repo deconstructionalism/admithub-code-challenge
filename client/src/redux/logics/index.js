@@ -1,9 +1,9 @@
 import countryLogics from './countryLogics.js'
-import pinnedLogics from './pinnedLogics.js'
+import pinnedCountryLogics from './pinnedCountryLogics.js'
 
 const rootLogics = [
   ...countryLogics,
-  ...pinnedLogics
+  ...pinnedCountryLogics
 ]
 
 export default rootLogics

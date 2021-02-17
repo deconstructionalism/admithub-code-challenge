@@ -6,7 +6,7 @@ Controller method to get all pinned countries from database
 const getPinnedCountries = async () => {
 
   // get row containing pinned countries array
-  const data = await knex('pinned')
+  const data = await knex('pinned_countries')
     .select('*')
     .where('id', 1)
     .first()
@@ -33,7 +33,7 @@ const addPinnedCountry = async (data) => {
   if (existingCountries.includes(data?.alpha3Code)) { return }
 
   // add new country to array of pinned countries
-  return knex('pinned')
+  return knex('pinned_countries')
     .update({ countries: JSON.stringify([...pinnedCountries, data]) })
     .where('id', 1)
 }
@@ -52,7 +52,7 @@ const removePinnedCountry = async (alpha3Code) => {
     .filter(({ alpha3Code: _a }) => _a !== alpha3Code)
 
   // remove country from pinned countries
-  return knex('pinned')
+  return knex('pinned_countries')
     .update({ countries: JSON.stringify(nextPinnedCountries) })
     .where('id', 1)
 }

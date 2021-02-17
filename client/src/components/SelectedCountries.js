@@ -56,7 +56,7 @@ SelectedCountries.propTypes = {
 // REDUX CONNECT CONFIG
 
 const mapStateToProps = ({ pinnedCountry }) => ({
-  pinnedCountries: pinnedCountry.countries,
+  pinnedCountries: pinnedCountry.countries
 })
 
 const mapDispatchToProps = (dispatch) => ({

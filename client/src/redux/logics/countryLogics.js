@@ -67,7 +67,7 @@ const getCountriesLogic = createLogic({
   // debounce incoming requests based on search query updates in `Search`
   debounce: 500,
   latest: true,
-  async process({ action, axios }, dispatch, done) {
+  async process ({ action, axios }, dispatch, done) {
 
     // destructure action data
     const { subString } = action.payload

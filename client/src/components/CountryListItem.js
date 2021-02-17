@@ -24,7 +24,7 @@ const CountryListItem = ({
 
   const imgAlt = `flag of ${name}`
   const imgStyle = { width: '3rem' }
-  const buttonIcon = isPinned ? '\u2715' : '\uFF0B';
+  const buttonIcon = isPinned ? '\u2715' : '\uFF0B'
   const buttonClass = `btn ${isPinned ? 'btn-danger' : 'btn-success'}`
 
   return (

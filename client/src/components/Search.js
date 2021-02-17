@@ -45,7 +45,7 @@ const Search = ({
     // if results are loading, show loading message
     if (isLoading === true) { return <div>Loading Results...</div> }
 
-      // if there are 0 countries found, show not found message
+    // if there are 0 countries found, show not found message
     if (unpinnedCountries.length === 0) { return <div>No countries found</div> }
 
     // otherwise, show list of `CountryListItem` components

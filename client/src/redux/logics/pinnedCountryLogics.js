@@ -18,7 +18,7 @@ Redux logic to index all pinned country data from server
 const getPinnedCountriesLogic = createLogic({
   type: GET_PINNED_COUNTRIES,
   latest: false,
-  async process({ axios }, dispatch, done) {
+  async process ({ axios }, dispatch, done) {
     try {
 
       // get all pinned countries from server
@@ -48,7 +48,7 @@ Redux logic to index add a new pinned country's data to server
 const addPinnedCountryLogic = createLogic({
   type: ADD_PINNED_COUNTRY,
   latest: false,
-  async process({ action, axios }, dispatch, done) {
+  async process ({ action, axios }, dispatch, done) {
 
     // destructure action data
     const { data } = action.payload
@@ -81,7 +81,7 @@ alpha3Code
 const removePinnedCountryLogic = createLogic({
   type: REMOVE_PINNED_COUNTRY,
   latest: false,
-  async process({ action, axios }, dispatch, done) {
+  async process ({ action, axios }, dispatch, done) {
 
     // destructure action data
     const { alpha3Code } = action.payload

@@ -4,6 +4,7 @@ const express = require('express')
 const helmet = require('helmet')
 const morgan = require('morgan')
 
+const countriesRoutes = require('./routes/countriesRoutes.js')
 const pinnedCountriesRouter = require('./routes/pinnedCountriesRouter.js')
 
 // instantiate express server
@@ -20,6 +21,7 @@ app.use(helmet())
 app.use(bodyParser.json())
 
 // add routes
+app.use(countriesRoutes)
 app.use(pinnedCountriesRouter)
 
 // bind server to port

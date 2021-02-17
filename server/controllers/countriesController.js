@@ -29,12 +29,42 @@ const getRESTCountries = async (subString) => {
 /*
 Sort country data by name
 */
-const sortByName = (countries) => {
+const sortCountriesByName = (countries) => {
   return countries.sort(({ name: nameA }, { name: nameB }) => {
     if (nameA > nameB) { return 1 }
     if (nameA < nameB) { return -1 }
     return 0
   })
+}
+
+/*
+Merge countries in `sourceArray` into `targetArray` based on unique `alpha3Code`
+id
+*/
+const mergeCountries = (sourceArray, targetArray) => {
+
+  // iterate country by country in `sourceArray` and check if country exists
+  // in `targetArray`; if so, replace country in `targetArray` with one from
+  //`sourceArray
+  return sourceArray
+    .reduce((acc, country) => {
+
+      // find matching index for source country (if it exists) in target
+      const matchIndex = acc
+        .findIndex(({ alpha3Code }) => alpha3Code === country.alpha3Code )
+
+
+      return matchIndex > -1
+        // if there is a matching country in the target, replace it without
+        // mutating the original target array
+        ? [
+          ...acc.slice(0, matchIndex),
+          country,
+          ...acc.slice(matchIndex + 1)
+        ]
+        // otherwise return the accumulator
+        : acc
+    }, targetArray)
 }
 
 /*
@@ -58,8 +88,11 @@ const getCountries = async (subString) => {
   // get country data from REST Countries API
   const apiMatches = await getRESTCountries(subString)
 
+
+  const mergedMatches = mergeCountries(extendedMatches, apiMatches)
+
   // combine extended country matches with API matches and sort by name
-  const allMatches = sortByName([...apiMatches, ...extendedMatches])
+  const allMatches = sortCountriesByName(mergedMatches)
 
   return allMatches
 }

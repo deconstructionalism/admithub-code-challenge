@@ -8,13 +8,9 @@ export const ADD_PINNED_COUNTRY = 'ADD_PINNED_COUNTRY'
 
 export const ADD_PINNED_COUNTRY_FULFILLED = 'ADD_PINNED_COUNTRY_FULFILLED'
 
-export const ADD_PINNED_COUNTRY_REJECTED = 'ADD_PINNED_COUNTRY_REJECTED'
-
 export const REMOVE_PINNED_COUNTRY = 'REMOVE_PINNED_COUNTRY'
 
 export const REMOVE_PINNED_COUNTRY_FULFILLED = 'REMOVE_PINNED_COUNTRY_FULFILLED'
-
-export const REMOVE_PINNED_COUNTRY_REJECTED = 'REMOVE_PINNED_COUNTRY_REJECTED'
 
 export const getPinnedCountries = () => ({
   type: GET_PINNED_COUNTRIES
@@ -39,10 +35,6 @@ export const addPinnedCountryFulfilled = (data) => ({
   payload: { data }
 })
 
-export const addPinnedCountryRejected = () => ({
-  type: ADD_PINNED_COUNTRY_REJECTED
-})
-
 export const removePinnedCountry = (alpha3Code) => ({
   type: REMOVE_PINNED_COUNTRY,
   payload: { alpha3Code }
@@ -53,6 +45,3 @@ export const removePinnedCountryFulfilled = (alpha3Code) => ({
   payload: { alpha3Code }
 })
 
-export const removePinnedCountryRejected = () => ({
-  type: REMOVE_PINNED_COUNTRY_REJECTED
-})

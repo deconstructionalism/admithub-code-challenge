@@ -7,11 +7,9 @@ import {
 
   ADD_PINNED_COUNTRY,
   addPinnedCountryFulfilled,
-  addPinnedCountryRejected,
 
   REMOVE_PINNED_COUNTRY,
-  removePinnedCountryFulfilled,
-  removePinnedCountryRejected
+  removePinnedCountryFulfilled
 } from '../actions/pinnedCountryActions.js'
 
 /*
@@ -67,8 +65,9 @@ const addPinnedCountryLogic = createLogic({
       // log error
       console.error(error)
 
-      // dispatch failure action
-      dispatch(addPinnedCountryRejected())
+      // dispatch success action even if request fails so local store
+      // still updates
+      dispatch(addPinnedCountryFulfilled(data))
     } finally {
       done()
     }
@@ -99,8 +98,9 @@ const removePinnedCountryLogic = createLogic({
       // log error
       console.error(error)
 
-      // dispatch failure action
-      dispatch(removePinnedCountryRejected())
+      // dispatch success action even if request fails so local store
+      // still updates
+      dispatch(removePinnedCountryFulfilled(alpha3Code))
     } finally {
       done()
     }

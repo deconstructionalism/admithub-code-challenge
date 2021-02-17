@@ -5,11 +5,9 @@ import {
 
   ADD_PINNED_COUNTRY,
   ADD_PINNED_COUNTRY_FULFILLED,
-  ADD_PINNED_COUNTRY_REJECTED,
 
   REMOVE_PINNED_COUNTRY,
-  REMOVE_PINNED_COUNTRY_FULFILLED,
-  REMOVE_PINNED_COUNTRY_REJECTED
+  REMOVE_PINNED_COUNTRY_FULFILLED
 } from '../actions/pinnedCountryActions.js'
 
 const initialState = {
@@ -65,13 +63,6 @@ const pinnedCountryReducer = (state = initialState, action) => {
       }
     }
 
-    case ADD_PINNED_COUNTRY_REJECTED: {
-      return {
-        ...state,
-        isLoading: false
-      }
-    }
-
     case REMOVE_PINNED_COUNTRY: {
       return {
         ...state,
@@ -88,13 +79,6 @@ const pinnedCountryReducer = (state = initialState, action) => {
       return {
         ...state,
         countries: nextCountries,
-        isLoading: false
-      }
-    }
-
-    case REMOVE_PINNED_COUNTRY_REJECTED: {
-      return {
-        ...state,
         isLoading: false
       }
     }

@@ -15,7 +15,7 @@ const getRESTCountries = async (subString) => {
     const res = await axios
       .get(`https://restcountries.eu/rest/v2/name/${subString}`)
 
-    // destrucrture countries in response
+    // destructure countries in response
     const { data = [] } = res
 
     return data

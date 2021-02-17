@@ -49,7 +49,7 @@ const SelectedCountries = ({
 // PROP TYPES
 
 SelectedCountries.propTypes = {
-  pinnedCountries: PropTypes.arrayOf(PropTypes.string),
+  pinnedCountries: PropTypes.arrayOf(PropTypes.object),
   togglePinned: PropTypes.func
 }
 

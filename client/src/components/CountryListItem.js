@@ -36,10 +36,10 @@ const CountryListItem = ({
         style={ imgStyle }
       />
 
-      <span class="mr-auto ml-4">{ name }</span>
+      <span className="mr-auto ml-4">{ name }</span>
 
       <button
-        class={ buttonClass }
+        className={ buttonClass }
         onClick={ handleClick }
       >
         { buttonIcon }

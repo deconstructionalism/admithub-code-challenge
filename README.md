@@ -25,3 +25,6 @@ as part of the interview process for Arjun Ray.
   instructions described in their README files.
 3. Once set up, there is a script at the base of this repo that you can run
    to get the client and server running together. To use this, run `sh run.sh`.
+
+> **NOTE**: You can also pass a `--client-only` flag to `run.sh` if you want
+> to test the fallback UX for the client when the server is unavailable.

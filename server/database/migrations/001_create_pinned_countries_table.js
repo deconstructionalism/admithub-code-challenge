@@ -3,7 +3,7 @@ exports.up = (knex) => {
   return (knex.schema
     .createTable('pinned_countries', (t) => {
       t.increments('id')
-      t.json('countries')
+      t.json('countries').notNullable()
     }))
 }
 
